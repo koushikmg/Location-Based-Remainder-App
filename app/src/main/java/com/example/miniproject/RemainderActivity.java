@@ -16,6 +16,7 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+    private ArrayList<ExampleItem> exampleItems ;
     ImageButton addItem;
 
     @Override
@@ -24,7 +25,23 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_remainder);
         addItem = (ImageButton) findViewById(R.id.addItemButton);
         addItem.setOnClickListener(this);
-        ArrayList<ExampleItem> exampleItems = new ArrayList<>();
+
+        createItemList();
+        createRecyclerView();
+
+    }
+
+    private void createRecyclerView(){
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ExampleAdapter(exampleItems);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void createItemList(){
+        exampleItems = new ArrayList<>();
         exampleItems.add(new ExampleItem("Jaynagar","Jacket"));
         exampleItems.add(new ExampleItem("Jaynagar1","Jacket1"));
         exampleItems.add(new ExampleItem("Jaynagar2","Jacket2"));
@@ -41,12 +58,13 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         exampleItems.add(new ExampleItem("Jaynagar13","Jacket13"));
         exampleItems.add(new ExampleItem("Jaynagar14","Jacket14"));
 
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new ExampleAdapter(exampleItems);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        Intent intent = getIntent();
+        String newplace = intent.getStringExtra("location");
+        String newitemname = intent.getStringExtra("item");
+        Boolean addNewItem = intent.getBooleanExtra("flag",false);
+        if(addNewItem){
+            exampleItems.add(new ExampleItem(newplace,newitemname));
+        }
     }
 
     @Override

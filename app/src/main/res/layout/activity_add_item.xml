@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="361dp"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="450dp"
         android:padding="10dp"
@@ -20,24 +20,24 @@
         app:cardElevation="5dp">
 
 
-        <TextView
+        <EditText
             android:id="@+id/location"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginTop="7dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="  Enter Location "
+            android:hint="  Enter Location "
             android:textSize="24dp" />
 
-        <TextView
+        <EditText
             android:id="@+id/itemname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="70dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="  Enter Item name"
+            android:hint="  Enter Item name"
             android:textSize="24dp" />
     </androidx.cardview.widget.CardView>
 

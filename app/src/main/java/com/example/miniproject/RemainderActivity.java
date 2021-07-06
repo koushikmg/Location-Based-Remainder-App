@@ -1,6 +1,8 @@
 package com.example.miniproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,16 +10,43 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+
 public class RemainderActivity extends AppCompatActivity implements View.OnClickListener {
-    ImageButton bt;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
+    ImageButton addItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remainder);
-        bt = (ImageButton) findViewById(R.id.imageButton2);
-        bt.setOnClickListener(this);
+        addItem = (ImageButton) findViewById(R.id.addItemButton);
+        addItem.setOnClickListener(this);
+        ArrayList<ExampleItem> exampleItems = new ArrayList<>();
+        exampleItems.add(new ExampleItem("Jaynagar","Jacket"));
+        exampleItems.add(new ExampleItem("Jaynagar1","Jacket1"));
+        exampleItems.add(new ExampleItem("Jaynagar2","Jacket2"));
+        exampleItems.add(new ExampleItem("Jaynagar3","Jacket3"));
+        exampleItems.add(new ExampleItem("Jaynagar4","Jacket4"));
+        exampleItems.add(new ExampleItem("Jaynagar5","Jacket5"));
+        exampleItems.add(new ExampleItem("Jaynagar6","Jacket6"));
+        exampleItems.add(new ExampleItem("Jaynagar7","Jacket7"));
+        exampleItems.add(new ExampleItem("Jaynagar8","Jacket8"));
+        exampleItems.add(new ExampleItem("Jaynagar9","Jacket9"));
+        exampleItems.add(new ExampleItem("Jaynagar10","Jacket10"));
+        exampleItems.add(new ExampleItem("Jaynagar11","Jacket11"));
+        exampleItems.add(new ExampleItem("Jaynagar12","Jacket12"));
+        exampleItems.add(new ExampleItem("Jaynagar13","Jacket13"));
+        exampleItems.add(new ExampleItem("Jaynagar14","Jacket14"));
 
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ExampleAdapter(exampleItems);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

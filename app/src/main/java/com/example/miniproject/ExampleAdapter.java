@@ -103,7 +103,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
                     }
                 });
-
+                mExampleItems.clear();
                 builder.show();
             }
         });

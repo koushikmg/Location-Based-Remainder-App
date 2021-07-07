@@ -1,13 +1,27 @@
 package com.example.miniproject;
 
 public class ExampleItem {
-    private String place,item;
+    private String place,item,itemId;
 
-    public ExampleItem(String place,String item)
+//    public ExampleItem(String place,String item)
+//    {
+//        this.place = place;
+//        this.item = item;
+//    }
+
+    public ExampleItem()
     {
-        this.place = place;
-        this.item = item;
+
     }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
 
     public String getPlace() {
         return place;
@@ -23,5 +37,13 @@ public class ExampleItem {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "ExampleItem{" +
+                "place='" + place + '\'' +
+                ", item='" + item + '\'' +
+                '}';
     }
 }

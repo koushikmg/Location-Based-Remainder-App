@@ -57,6 +57,15 @@
 
         </TextView>
 
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/delete"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
 
 
     </RelativeLayout>

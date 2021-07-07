@@ -1,5 +1,6 @@
 package com.example.miniproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,17 +8,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class RemainderActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
+    private ExampleAdapter mAdapter;
     private ArrayList<ExampleItem> exampleItems ;
     ImageButton addItem;
+
+
+
+    // creating a variable for our Database
+    // Reference for Firebase.
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +37,9 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_remainder);
         addItem = (ImageButton) findViewById(R.id.addItemButton);
         addItem.setOnClickListener(this);
-
+        exampleItems = new ArrayList<>();
         createItemList();
+
         createRecyclerView();
 
     }
@@ -38,33 +51,47 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         mAdapter = new ExampleAdapter(exampleItems);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick( int position) {
+                removeItem(position);
+            }
+        });
+
+    }
+
+    public void removeItem(int position) {
+        exampleItems.remove(position);
+        mAdapter.notifyItemRemoved(position);
+
     }
 
     private void createItemList(){
-        exampleItems = new ArrayList<>();
-        exampleItems.add(new ExampleItem("Jaynagar","Jacket"));
-        exampleItems.add(new ExampleItem("Jaynagar1","Jacket1"));
-        exampleItems.add(new ExampleItem("Jaynagar2","Jacket2"));
-        exampleItems.add(new ExampleItem("Jaynagar3","Jacket3"));
-        exampleItems.add(new ExampleItem("Jaynagar4","Jacket4"));
-        exampleItems.add(new ExampleItem("Jaynagar5","Jacket5"));
-        exampleItems.add(new ExampleItem("Jaynagar6","Jacket6"));
-        exampleItems.add(new ExampleItem("Jaynagar7","Jacket7"));
-        exampleItems.add(new ExampleItem("Jaynagar8","Jacket8"));
-        exampleItems.add(new ExampleItem("Jaynagar9","Jacket9"));
-        exampleItems.add(new ExampleItem("Jaynagar10","Jacket10"));
-        exampleItems.add(new ExampleItem("Jaynagar11","Jacket11"));
-        exampleItems.add(new ExampleItem("Jaynagar12","Jacket12"));
-        exampleItems.add(new ExampleItem("Jaynagar13","Jacket13"));
-        exampleItems.add(new ExampleItem("Jaynagar14","Jacket14"));
+       exampleItems.clear();
 
-        Intent intent = getIntent();
-        String newplace = intent.getStringExtra("location");
-        String newitemname = intent.getStringExtra("item");
-        Boolean addNewItem = intent.getBooleanExtra("flag",false);
-        if(addNewItem){
-            exampleItems.add(new ExampleItem(newplace,newitemname));
-        }
+       databaseReference = FirebaseDatabase.getInstance().getReference("member");
+
+       databaseReference.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+               for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                   ExampleItem item = dataSnapshot.getValue(ExampleItem.class);
+                   exampleItems.add(item);
+
+               }
+
+               mAdapter.notifyDataSetChanged();
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull  DatabaseError error) {
+
+           }
+       });
+
+
     }
 
     @Override

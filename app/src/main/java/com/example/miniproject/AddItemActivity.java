@@ -48,7 +48,7 @@ public class AddItemActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         // below line is used to get reference for our database.
-        reference = firebaseDatabase.getInstance().getReference().child("member");
+        reference = firebaseDatabase.getInstance().getReference("member");
 
         exampleItem = new ExampleItem();
 

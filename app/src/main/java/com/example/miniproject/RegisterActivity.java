@@ -1,9 +1,11 @@
 package com.example.miniproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +13,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    public static final String TAG = "TAG";
     EditText name, email, phone, password;
     Button register;
     TextView login;
     boolean isNameValid, isEmailValid, isPhoneValid, isPasswordValid;
     TextInputLayout nameError, emailError, phoneError, passError;
+    FirebaseAuth firebaseAuth;
+    String userID;
 
 
     @Override
@@ -36,18 +52,28 @@ public class RegisterActivity extends AppCompatActivity {
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         phoneError = (TextInputLayout) findViewById(R.id.phoneError);
         passError = (TextInputLayout) findViewById(R.id.passError);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean successful = SetValidation();
                 if (successful) {
-                    Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                    intent.putExtra("name",name.getText().toString());
-                    intent.putExtra("email",email.getText().toString());
-                    intent.putExtra("phno",phone.getText().toString());
-                    intent.putExtra("pass",password.getText().toString());
-                    startActivity(intent);
+                    firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful())
+                            {
+                                userID = firebaseAuth.getCurrentUser().getUid();
+
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            }
+                            else
+                            {
+                                Toast.makeText(RegisterActivity.this,"ERROR",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
         });

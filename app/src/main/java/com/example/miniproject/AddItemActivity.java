@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,6 +21,8 @@ public class AddItemActivity extends AppCompatActivity {
     private Button submit;
     private EditText location;
     private EditText itemName;
+    String userID;
+
 
 
     // creating a variable for our
@@ -34,6 +37,9 @@ public class AddItemActivity extends AppCompatActivity {
     // our object class
     ExampleItem exampleItem;
 
+    //Getting user id from firebase auth
+    FirebaseAuth firebaseAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +48,16 @@ public class AddItemActivity extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         location = findViewById(R.id.location);
         itemName = findViewById(R.id.itemname);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        userID = firebaseAuth.getCurrentUser().getUid();
 
         // below line is used to get the
         // instance of our FIrebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         // below line is used to get reference for our database.
-        reference = firebaseDatabase.getInstance().getReference("member");
+        reference = firebaseDatabase.getInstance().getReference(userID);
 
         exampleItem = new ExampleItem();
 

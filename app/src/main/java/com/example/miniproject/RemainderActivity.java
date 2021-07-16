@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,12 +25,16 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
     private ExampleAdapter mAdapter;
     private ArrayList<ExampleItem> exampleItems ;
     ImageButton addItem;
+    String userID;
 
 
 
     // creating a variable for our Database
     // Reference for Firebase.
     DatabaseReference databaseReference;
+
+    //Getting user id from firebase auth
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,10 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         addItem = (ImageButton) findViewById(R.id.addItemButton);
         addItem.setOnClickListener(this);
         exampleItems = new ArrayList<>();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        userID = firebaseAuth.getCurrentUser().getUid();
+
         createItemList();
 
         createRecyclerView();
@@ -69,7 +78,7 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
     private void createItemList(){
        exampleItems.clear();
 
-       databaseReference = FirebaseDatabase.getInstance().getReference("member");
+       databaseReference = FirebaseDatabase.getInstance().getReference(userID);
 
        databaseReference.addValueEventListener(new ValueEventListener() {
            @Override

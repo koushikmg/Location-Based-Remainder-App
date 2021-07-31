@@ -11,7 +11,7 @@
     tools:context=".AddItemActivity">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="361dp"
+        android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="450dp"
@@ -50,12 +50,15 @@
         android:layout_marginTop="170dp"
         android:text="Submit" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="361dp"
-        android:layout_height="319dp"
-        android:layout_marginTop="270dp"
-        app:srcCompat="@drawable/map2" />
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/submit"
+        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        />
 
 
 </RelativeLayout>

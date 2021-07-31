@@ -1,7 +1,8 @@
 package com.example.miniproject;
 
 public class ExampleItem {
-    private String place,item,itemId;
+    private String place,item,itemId , latitude,longitude;
+
 
 //    public ExampleItem(String place,String item)
 //    {
@@ -37,6 +38,18 @@ public class ExampleItem {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public  void setLatitude(String latitude) {this.latitude = latitude; }
+
+    public  void setLongitude(String longitude) {this.longitude = longitude; }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
     TextView register;
     boolean isEmailValid, isPasswordValid;
     FirebaseAuth fAuth;
+    ProgressBar progressBar;
     TextInputLayout emailError, passError;
+    private long backPressedTime;
+    Toast backToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
         register = (TextView) findViewById(R.id.register);
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar6);
         fAuth = FirebaseAuth.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 fAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -54,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            Toast.makeText(MainActivity.this,"ERROR",Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(MainActivity.this,"Email and the password does not match",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -69,5 +76,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+
+        if(backPressedTime + 2000 > System.currentTimeMillis())
+        {
+            backToast.cancel();
+            super.onBackPressed();
+            return;
+        }
+        else
+        {
+            backToast = Toast.makeText(getApplicationContext(),"Press back again to exit",Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 }

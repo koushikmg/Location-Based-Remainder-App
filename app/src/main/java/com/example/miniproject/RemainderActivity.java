@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +25,11 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView.LayoutManager mLayoutManager;
     private ExampleAdapter mAdapter;
     private ArrayList<ExampleItem> exampleItems ;
+    private long backPressedTime;
     ImageButton addItem;
+    Toast backToast;
     String userID;
+
 
 
 
@@ -51,6 +55,24 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
 
         createRecyclerView();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(backPressedTime + 2000 > System.currentTimeMillis())
+        {
+            backToast.cancel();
+            super.onBackPressed();
+            finishAffinity();
+        }
+        else
+        {
+            backToast = Toast.makeText(getApplicationContext(),"Press back again to exit",Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 
     private void createRecyclerView(){

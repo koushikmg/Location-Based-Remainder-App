@@ -14,4 +14,5 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="password_error">Please enter a password</string>
     <string name="error_invalid_password">Please enter a minimum password of 6 characters</string>
+    <string name="google_maps_key">AIzaSyA9eRbjRkCtu-I5yhFhxZzEqa0gVLWq9Ko</string>
 </resources>

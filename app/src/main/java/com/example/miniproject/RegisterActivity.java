@@ -35,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputLayout nameError, emailError, phoneError, passError;
     FirebaseAuth firebaseAuth;
     String userID;
+    private long backPressedTime;
+    Toast backToast;
+
 
 
     @Override
@@ -132,5 +135,22 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return successfulRegistration;
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(backPressedTime + 2000 > System.currentTimeMillis())
+        {
+            backToast.cancel();
+            finishAffinity();
+        }
+        else
+        {
+            backToast = Toast.makeText(getApplicationContext(),"Press back again to exit",Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 }

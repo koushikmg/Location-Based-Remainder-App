@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     private ArrayList<ExampleItem> mExampleItems;
     private OnItemClickListener mListener;
+    String userID;
+    FirebaseAuth firebaseAuth;
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mListener = onItemClickListener;
@@ -79,7 +82,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         ExampleItem exampleItem = mExampleItems.get(position);
         holder.placeView.setText(exampleItem.getPlace());
         holder.itemView.setText(exampleItem.getItem());
+        firebaseAuth = FirebaseAuth.getInstance();
 
+        userID = firebaseAuth.getCurrentUser().getUid();
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +97,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        FirebaseDatabase.getInstance().getReference().child("member")
+                        FirebaseDatabase.getInstance().getReference(userID)
                                 .child(exampleItem.getItemId()).removeValue();
                     }
                 });

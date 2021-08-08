@@ -85,7 +85,7 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick( int position) {
-                removeItem(position);
+                //removeItem(position);
             }
         });
 

@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     EditText email, password;
     Button login;
     TextView register;
-    boolean isEmailValid, isPasswordValid;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
     TextInputLayout emailError, passError;
@@ -44,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         emailError = (TextInputLayout) findViewById(R.id.emailError);
         passError = (TextInputLayout) findViewById(R.id.passError);
         progressBar = (ProgressBar) findViewById(R.id.progressBar6);
+
+        //Initializing firebase Auth
         fAuth = FirebaseAuth.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {

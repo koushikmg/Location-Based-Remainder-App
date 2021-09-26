@@ -82,6 +82,8 @@ public class RemainderActivity extends AppCompatActivity implements View.OnClick
         mAdapter = new ExampleAdapter(exampleItems);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+
         mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
             @Override
             public void onDeleteClick( int position) {

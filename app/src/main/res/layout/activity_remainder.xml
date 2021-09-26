@@ -28,7 +28,4 @@
             android:layout_marginTop="640dp"
             android:background="@drawable/new1" />
 
-
-
-
 </RelativeLayout>

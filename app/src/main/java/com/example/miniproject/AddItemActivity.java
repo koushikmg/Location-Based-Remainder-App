@@ -126,7 +126,6 @@ public class AddItemActivity extends AppCompatActivity implements OnMapReadyCall
         exampleItems = new ArrayList<>();
         mGeofenceList = new ArrayList<>();
 
- //       buildGoogleApiClient();
         getAllItems();
 
 
@@ -404,9 +403,9 @@ public class AddItemActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private PendingIntent getGeofencePendingIntent() {
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling addgeoFences()
-        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
 
